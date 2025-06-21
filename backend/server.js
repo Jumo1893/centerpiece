@@ -6,7 +6,7 @@ const cors = require("cors");
 const app = express();
 const port = 3300;
 const mongoUrl = "mongodb://localhost:27017";
-const dbName = "testdb";
+const dbName = "centerpiece";
 
 let db;
 
@@ -16,8 +16,8 @@ app.use(express.json());
 // Verbindung zur MongoDB herstellen
 MongoClient.connect(mongoUrl, { useUnifiedTopology: true })
     .then((client) => {
-        console.log("MongoDB verbunden");
         db = client.db(dbName);
+        console.log("MongoDB verbunden");
     })
     .catch((error) => {
         console.error("Fehler bei MongoDB-Verbindung:", error);
@@ -35,9 +35,9 @@ app.post("/api/items", async (req, res) => {
 });
 
 // Beispielroute zum Abrufen aller Dokumente
-app.get("/api/items", async (req, res) => {
+app.get("/api/", async (req, res) => {
     try {
-        const items = await db.collection("items").find().toArray();
+        const items = await db.collection("centerpiece").find().toArray();
         res.json(items);
     } catch (err) {
         res.status(500).json({ error: "Fehler beim Abrufen" });
@@ -45,7 +45,7 @@ app.get("/api/items", async (req, res) => {
 });
 app.get("/", async (req, res) => {
     try {
-        res.json("Hello World!")
+        res.json(items)
     } catch (err) {
         res.status(500).json({ error: "Fehler beim Abrufen" });
     }
